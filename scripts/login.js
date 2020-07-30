@@ -1,4 +1,6 @@
-async function autoLogin(page, username, password) {
+async function autoLogin(page, url, username, password) {
+  await page.goto(url);
+
   // username
   const usernameElement = '#j_username';
   await page.waitFor(usernameElement);
