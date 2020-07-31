@@ -16,11 +16,11 @@ async function pack(page, clients, url) {
     await page.waitFor('select[name="value"]');
     await page.select('select[name="value"]', client);
     const buildButton = await page.waitFor('#yui-gen1-button');
-    // await buildButton.evaluate((btn) => btn.click());
+    await buildButton.evaluate((btn) => btn.click());
 
     console.log(`${++count}/${clients.length}: building ${client}...`);
 
-    if (count % 3 === 0) {
+    if (count % 3 === 0 || count === clients.length) {
       await page.waitFor(restTime);
     }
     await page.goto(url); // go to build page
