@@ -30,16 +30,37 @@ const { PLATFORM, SERVER, THEMES, clientList } = require('./clientList');
     // const toRunClients = clientList.filter(
     //   (x) =>
     //     x.platform === PLATFORM.NEWZH &&
-    //     [THEMES.LIGHT, THEMES.CUSTOM_LIGHT].includes(x.themes)
-    //   // [THEMES.DARK, THEMES.CUSTOM_DARK].includes(x.themes)
+    //     // [THEMES.LIGHT, THEMES.CUSTOM_LIGHT].includes(x.themes)
+    //     [THEMES.DARK, THEMES.CUSTOM_DARK].includes(x.themes)
     // );
 
     // Run ZH & NEWZH ----------------------------------------
     // const toRunClients = clientList.filter((x) => x.platform !== PLATFORM.CP);
 
     // RUN particular server ----------------------------------------
-    // const toRunClients = clientList.filter((x) => x.server === SERVER.AWS5);
-    // ----------------------------------------
+    // 2nd Batch
+    // const toRunClients = clientList.filter((x) =>
+    //   [
+    //     SERVER.AWS4,
+    //     SERVER.AWS13,
+    //     SERVER.AWS13a,
+    //     SERVER.AWS16,
+    //     SERVER.AWS17,
+    //   ].includes(x.server)
+    // );
+
+    // 3rd Batch
+    const toRunClients = clientList.filter(
+      (x) =>
+        ![
+          SERVER.AWS4,
+          SERVER.AWS12,
+          SERVER.AWS13,
+          SERVER.AWS13a,
+          SERVER.AWS16,
+          SERVER.AWS17,
+        ].includes(x.server)
+    );
 
     const clients = toRunClients.map((x) => x.client);
     console.log('Clients', clients);

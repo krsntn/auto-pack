@@ -23,6 +23,7 @@ async function pack(page, clients, url) {
     if (count % 3 === 0 || count === clients.length) {
       await page.waitFor(restTime);
     }
+    await page.waitFor(3000);
     await page.goto(url); // go to build page
   }
   console.timeEnd('Build time');

@@ -33,12 +33,12 @@ const THEMES = {
 
 const clientList = [
   { platform: PLATFORM.CP, server: SERVER.AWS1, client: '106-m' },
-  {
-    platform: PLATFORM.NEWZH,
-    server: SERVER.AWS1,
-    client: '306-m',
-    themes: THEMES.CUSTOM_DARK,
-  },
+  // {
+  //   platform: PLATFORM.NEWZH,
+  //   server: SERVER.AWS1,
+  //   client: '306-m',
+  //   themes: THEMES.CUSTOM_DARK,
+  // },
   { platform: PLATFORM.CP, server: SERVER.AWS1, client: 'c6-m' },
   { platform: PLATFORM.CP, server: SERVER.AWS1, client: 'qq-m' },
   { platform: PLATFORM.ZH, server: SERVER.AWS1, client: '666-m' },
@@ -72,7 +72,7 @@ const clientList = [
     platform: PLATFORM.NEWZH,
     server: SERVER.AWS2,
     client: 'xxcp-m',
-    themes: THEMES.CUSTOM_DARK,
+    themes: THEMES.DARK,
   },
   {
     platform: PLATFORM.NEWZH,
@@ -95,9 +95,9 @@ const clientList = [
     client: '779-m',
     themes: THEMES.CUSTOM_LIGHT,
   },
-  { platform: PLATFORM.CP, server: SERVER.AWS3, client: '234-m' },
-  { platform: PLATFORM.CP, server: SERVER.AWS3, client: '093cp-m' },
-  { platform: PLATFORM.CP, server: SERVER.AWS3, client: '123cp-m' },
+  // { platform: PLATFORM.CP, server: SERVER.AWS3, client: '234-m' },
+  // { platform: PLATFORM.CP, server: SERVER.AWS3, client: '093cp-m' },
+  // { platform: PLATFORM.CP, server: SERVER.AWS3, client: '123cp-m' },
   { platform: PLATFORM.CP, server: SERVER.AWS4, client: 'yycp-m' },
   { platform: PLATFORM.CP, server: SERVER.AWS4, client: '365-m' },
   { platform: PLATFORM.CP, server: SERVER.AWS5, client: '038-m' },
@@ -108,7 +108,7 @@ const clientList = [
     client: '555-m',
     themes: THEMES.DARK,
   },
-  { platform: PLATFORM.CP, server: SERVER.AWS5, client: 'wyzcp-m' },
+  // { platform: PLATFORM.CP, server: SERVER.AWS5, client: 'wyzcp-m' },
   { platform: PLATFORM.CP, server: SERVER.AWS5, client: '978cp-m' },
   { platform: PLATFORM.CP, server: SERVER.AWS5, client: '758-m' },
   { platform: PLATFORM.CP, server: SERVER.AWS6, client: 'mxcp-m' },
@@ -143,7 +143,12 @@ const clientList = [
     themes: THEMES.CUSTOM_DARK,
   },
   { platform: PLATFORM.CP, server: SERVER.AWS8, client: 'bzcp-m' },
-  { platform: PLATFORM.CP, server: SERVER.AWS9, client: '7755-m' },
+  {
+    platform: PLATFORM.NEWZH,
+    server: SERVER.AWS9,
+    client: '7755-m',
+    themes: THEMES.DARK,
+  },
   {
     platform: PLATFORM.NEWZH,
     server: SERVER.AWS9,
@@ -170,7 +175,7 @@ const clientList = [
     themes: THEMES.DARK,
   },
   { platform: PLATFORM.CP, server: SERVER.AWS10, client: '008cp-m' },
-  { platform: PLATFORM.CP, server: SERVER.AWS11, client: '03cp-m' },
+  // { platform: PLATFORM.CP, server: SERVER.AWS11, client: '03cp-m' },
   { platform: PLATFORM.CP, server: SERVER.AWS11, client: '101-m' },
   { platform: PLATFORM.CP, server: SERVER.AWS11, client: '890-m' },
   {
@@ -205,12 +210,12 @@ const clientList = [
     client: '9hcp-m',
     themes: THEMES.CUSTOM_DARK,
   },
-  {
-    platform: PLATFORM.NEWZH,
-    server: SERVER.AWS15,
-    client: '703cp-m',
-    themes: THEMES.CUSTOM_DARK,
-  },
+  // {
+  //   platform: PLATFORM.NEWZH,
+  //   server: SERVER.AWS15,
+  //   client: '703cp-m',
+  //   themes: THEMES.CUSTOM_DARK,
+  // },
   {
     platform: PLATFORM.NEWZH,
     server: SERVER.AWS16,
