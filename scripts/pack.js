@@ -1,5 +1,5 @@
 async function pack(page, clients, url) {
-  const restTime = 150000; // 2:30 minutes
+  const restTime = 120000; // 2:30 minutes
 
   console.log(
     '\n' +

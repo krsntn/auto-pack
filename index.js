@@ -38,29 +38,41 @@ const { PLATFORM, SERVER, THEMES, clientList } = require('./clientList');
     // const toRunClients = clientList.filter((x) => x.platform !== PLATFORM.CP);
 
     // RUN particular server ----------------------------------------
-    // 2nd Batch
-    // const toRunClients = clientList.filter((x) =>
-    //   [
-    //     SERVER.AWS4,
-    //     SERVER.AWS13,
-    //     SERVER.AWS13a,
-    //     SERVER.AWS16,
-    //     SERVER.AWS17,
-    //   ].includes(x.server)
-    // );
-
-    // 3rd Batch
-    const toRunClients = clientList.filter(
-      (x) =>
-        ![
+    let toRunClients = [];
+    if (process.env.BATCH === '2') {
+      // 2nd Batch
+      toRunClients = clientList.filter((x) =>
+        [
           SERVER.AWS4,
-          SERVER.AWS12,
           SERVER.AWS13,
           SERVER.AWS13a,
           SERVER.AWS16,
           SERVER.AWS17,
         ].includes(x.server)
-    );
+      );
+    } else if (process.env.BATCH === '3') {
+      // 3rd Batch - Part 1
+      toRunClients = clientList.filter((x) =>
+        [
+          SERVER.AWS1,
+          SERVER.AZURE,
+          SERVER.AWS2,
+          SERVER.AWS3,
+          SERVER.AWS5,
+        ].includes(x.server)
+      );
+    } else if (process.env.BATCH === '4') {
+      // 3rd Batch - Part 2
+      toRunClients = clientList.filter((x) =>
+        [
+          SERVER.AWS6,
+          SERVER.AWS8,
+          SERVER.AWS9,
+          SERVER.AWS10,
+          SERVER.AWS11,
+        ].includes(x.server)
+      );
+    }
 
     const clients = toRunClients.map((x) => x.client);
     console.log('Clients', clients);
