@@ -17,5 +17,5 @@
    Start it up
 
    ```shell
-   node index.js
+    BATCH=<your_input_number> node index.js
    ```
