@@ -1,9 +1,9 @@
 import dotenv from 'dotenv';
 import puppeteer from 'puppeteer';
-import autoLogin from './scripts/login';
-import pack from './scripts/pack';
-import verification from './scripts/verification';
-import { PLATFORM, SERVER, THEMES, clientList } from './clientList';
+import autoLogin from './scripts/login.js';
+import pack from './scripts/pack.js';
+import verification from './scripts/verification.js';
+import { PLATFORM, SERVER, THEMES, clientList } from './clientList.js';
 
 dotenv.config();
 
