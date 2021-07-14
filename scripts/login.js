@@ -16,4 +16,4 @@ async function autoLogin(page, url, username, password) {
   await submitButton.evaluate((btn) => btn.click());
 }
 
-module.exports.autoLogin = autoLogin;
+export default autoLogin;

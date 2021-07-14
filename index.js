@@ -1,10 +1,11 @@
-require('dotenv').config();
+import dotenv from 'dotenv';
+import puppeteer from 'puppeteer';
+import autoLogin from './scripts/login';
+import pack from './scripts/pack';
+import verification from './scripts/verification';
+import { PLATFORM, SERVER, THEMES, clientList } from './clientList';
 
-const puppeteer = require('puppeteer');
-const { autoLogin } = require('./scripts/login');
-const { pack } = require('./scripts/pack');
-const { verification } = require('./scripts/verification');
-const { PLATFORM, SERVER, THEMES, clientList } = require('./clientList');
+dotenv.config();
 
 (async () => {
   try {
@@ -39,11 +40,17 @@ const { PLATFORM, SERVER, THEMES, clientList } = require('./clientList');
 
     // RUN particular server ----------------------------------------
     let toRunClients = [];
-    if (process.env.BATCH === '2') {
+    if (process.env.BATCH === '1') {
+      // 1st Batch
+      toRunClients = clientList.filter((x) =>
+        [SERVER.AWS4, SERVER.AWS12].includes(x.server)
+      );
+    } else if (process.env.BATCH === '2') {
       // 2nd Batch
       toRunClients = clientList.filter((x) =>
         [
-          SERVER.AWS4,
+          SERVER.AZURE,
+          SERVER.AWS9,
           SERVER.AWS13,
           SERVER.AWS13a,
           SERVER.AWS16,
@@ -53,24 +60,14 @@ const { PLATFORM, SERVER, THEMES, clientList } = require('./clientList');
     } else if (process.env.BATCH === '3') {
       // 3rd Batch - Part 1
       toRunClients = clientList.filter((x) =>
-        [
-          SERVER.AWS1,
-          SERVER.AZURE,
-          SERVER.AWS2,
-          SERVER.AWS3,
-          SERVER.AWS5,
-        ].includes(x.server)
+        [SERVER.AWS1, SERVER.AWS2, SERVER.AWS3, SERVER.AWS5].includes(x.server)
       );
     } else if (process.env.BATCH === '4') {
       // 3rd Batch - Part 2
       toRunClients = clientList.filter((x) =>
-        [
-          SERVER.AWS6,
-          SERVER.AWS8,
-          SERVER.AWS9,
-          SERVER.AWS10,
-          SERVER.AWS11,
-        ].includes(x.server)
+        [SERVER.AWS6, SERVER.AWS8, SERVER.AWS10, SERVER.AWS11].includes(
+          x.server
+        )
       );
     }
 

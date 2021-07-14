@@ -1,5 +1,5 @@
 async function pack(page, clients, url) {
-  const restTime = 120000; // 2:30 minutes
+  const restTime = 120000; // 2:00 minutes
 
   console.log(
     '\n' +
@@ -29,4 +29,4 @@ async function pack(page, clients, url) {
   console.timeEnd('Build time');
 }
 
-module.exports.pack = pack;
+export default pack;

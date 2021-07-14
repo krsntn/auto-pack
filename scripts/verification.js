@@ -45,4 +45,4 @@ async function getClientName(page, number) {
   return client;
 }
 
-module.exports.verification = verification;
+export default verification;

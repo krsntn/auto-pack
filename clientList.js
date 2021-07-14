@@ -190,7 +190,12 @@ const clientList = [
     client: '125-m',
     themes: THEMES.CUSTOM_LIGHT,
   },
-  { platform: PLATFORM.CP, server: SERVER.AWS10, client: '109-m' },
+  {
+    platform: PLATFORM.NEWZH,
+    server: SERVER.AWS10,
+    client: '109-m',
+    themes: THEMES.DARK,
+  },
   {
     platform: PLATFORM.NEWZH,
     server: SERVER.AWS10,
@@ -234,6 +239,12 @@ const clientList = [
     client: 'fl-m', // also known as 833
     themes: THEMES.DARK,
   },
+  {
+    platform: PLATFORM.NEWZH,
+    server: SERVER.AWS13,
+    client: 'ttf-m',
+    themes: THEMES.DARK,
+  },
 
   // AWS 13a =============================================================
 
@@ -242,6 +253,12 @@ const clientList = [
     server: SERVER.AWS13a,
     client: '9hcp-m',
     themes: THEMES.CUSTOM_DARK,
+  },
+  {
+    platform: PLATFORM.NEWZH,
+    server: SERVER.AWS13a,
+    client: 'hck-m',
+    themes: THEMES.DARK,
   },
 
   // AWS 16 =============================================================
@@ -268,9 +285,12 @@ const clientList = [
     client: 'hycp-m',
     themes: THEMES.DARK,
   },
+  {
+    platform: PLATFORM.NEWZH,
+    server: SERVER.AWS17,
+    client: 'hcp-m',
+    themes: THEMES.LIGHT,
+  },
 ];
 
-module.exports.PLATFORM = PLATFORM;
-module.exports.SERVER = SERVER;
-module.exports.THEMES = THEMES;
-module.exports.clientList = clientList;
+export { PLATFORM, SERVER, THEMES, clientList };
