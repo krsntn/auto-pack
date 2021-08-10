@@ -129,7 +129,12 @@ const clientList = [
 
   { platform: PLATFORM.CP, server: SERVER.AWS6, client: 'mxcp-m' },
   { platform: PLATFORM.CP, server: SERVER.AWS6, client: 'scw-m' },
-  { platform: PLATFORM.CP, server: SERVER.AWS6, client: 'djcp-m' },
+  {
+    platform: PLATFORM.NEWZH,
+    server: SERVER.AWS6,
+    client: 'djcp-m',
+    themes: THEMES.LIGHT,
+  },
   // { platform: PLATFORM.CP, server: SERVER.AWS6, client: 'c8-m' },
   // {
   //   platform: PLATFORM.NEWZH,

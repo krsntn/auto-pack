@@ -1,10 +1,8 @@
-async function pack(page, clients, url) {
-  const restTime = 120000; // 2:00 minutes
-
+async function packPROD({ page, clients, buildURL, numClient, buildTime }) {
   console.log(
     '\n' +
       `Estimated Build Time: ${
-        (Math.ceil(clients.length / 3) * restTime) / 1000 / 60
+        (Math.ceil(clients.length / numClient) * buildTime) / 1000 / 60
       }mins` +
       '\n'
   );
@@ -20,13 +18,13 @@ async function pack(page, clients, url) {
 
     console.log(`${++count}/${clients.length}: building ${client}...`);
 
-    if (count % 3 === 0 || count === clients.length) {
-      await page.waitFor(restTime);
+    if (count % numClient === 0 || count === clients.length) {
+      await page.waitFor(buildTime);
     }
-    await page.waitFor(3000);
-    await page.goto(url); // go to build page
+    await page.waitFor(2000);
+    await page.goto(buildURL); // go to build page
   }
   console.timeEnd('Build time');
 }
 
-export default pack;
+export default packPROD;

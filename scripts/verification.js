@@ -30,7 +30,7 @@ async function verification(page, url, clientLength) {
   );
 
   if (failed.length) {
-    for (number of failed) {
+    for (const number of failed) {
       failedClients.push(await getClientName(page, number));
     }
     console.log('\n' + 'Build Failed: ', failedClients + '\n');
