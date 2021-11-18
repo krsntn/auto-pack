@@ -18,9 +18,13 @@ async function packPROD({ page, clients, buildURL, numClient, buildTime }) {
 
     console.log(`${++count}/${clients.length}: building ${client}...`);
 
-    if (count % numClient === 0 || count === clients.length) {
+    if (
+      (count % numClient === 0 && count !== clients.length - 1) ||
+      count === clients.length
+    ) {
       await page.waitFor(buildTime);
     }
+
     await page.waitFor(2000);
     await page.goto(buildURL); // go to build page
   }

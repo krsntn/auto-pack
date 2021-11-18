@@ -3,6 +3,7 @@ import puppeteer from 'puppeteer';
 import autoLogin from './scripts/login.js';
 import packPROD from './scripts/packPROD.js';
 import packUAT from './scripts/packUAT.js';
+import packSIT from './scripts/packSIT.js';
 import verification from './scripts/verification.js';
 import { PLATFORM, SERVER, THEMES, clientList } from './clientList.js';
 
@@ -26,6 +27,44 @@ const BUILD_TIME = 120000; // 2:00 minutes
     const password = process.env.PASSWORD;
 
     let toRunClients = [];
+
+    // SIT ----------------------------------------------------------------
+    if (process.env.SIT) {
+      const branchName = process.env.SIT;
+      await autoLogin(page, uatBuildURL, username, password);
+      await packSIT({
+        page,
+        branchName,
+        sitBuildURL: uatBuildURL,
+        siteNumber: 0,
+      });
+      console.log('Done');
+      return;
+    }
+    if (process.env.SIT1) {
+      const branchName = process.env.SIT1;
+      await autoLogin(page, uatBuildURL, username, password);
+      await packSIT({
+        page,
+        branchName,
+        sitBuildURL: uatBuildURL,
+        siteNumber: 1,
+      });
+      console.log('Done');
+      return;
+    }
+    if (process.env.SIT2) {
+      const branchName = process.env.SIT2;
+      await autoLogin(page, uatBuildURL, username, password);
+      await packSIT({
+        page,
+        branchName,
+        sitBuildURL: uatBuildURL,
+        siteNumber: 2,
+      });
+      console.log('Done');
+      return;
+    }
 
     // UAT ----------------------------------------------------------------
     if (process.env.UAT) {
