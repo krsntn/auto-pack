@@ -11,7 +11,7 @@ dotenv.config();
 
 // [START] PROD configuration =========
 const NUM_CLIENT = 3; // number of clients to build at the same time
-const BUILD_TIME = 120000; // 2:00 minutes
+const BUILD_TIME = 180000; // 2:00 minutes
 // [END] PROD configuration ===========
 
 (async () => {

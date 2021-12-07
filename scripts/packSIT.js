@@ -27,7 +27,7 @@ async function packSIT({ page, branchName, sitBuildURL, siteNumber }) {
       break;
   }
 
-  const client = ['118-m', '1000-m', '977-m'];
+  const client = ['sit1', 'sit2', 'sit3'];
 
   for (let i = 0; i < finalSites.length; i++) {
     const branchElement = 'input.setting-input';

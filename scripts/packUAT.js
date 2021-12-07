@@ -1,6 +1,6 @@
 async function packUAT({ page, branchName, uatBuildURL }) {
   const sites = ['www.513xyz.com', 'dsf.513xyz.com', 'uat07wap.513xyz.com'];
-  const client = ['118-m', '1000-m', '977-m'];
+  const client = ['sit1', 'sit2', 'sit3'];
 
   for (let i = 0; i < sites.length; i++) {
     const branchElement = 'input.setting-input';
