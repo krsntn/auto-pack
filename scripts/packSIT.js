@@ -15,13 +15,13 @@ async function packSIT({ page, branchName, sitBuildURL, siteNumber }) {
     'sit01-301webdyn2.gri7.com',
   ];
 
-  let finalSites = sites;
+  let sitSites = sites;
   switch (siteNumber) {
     case 1:
-      finalSites = sites1;
+      sitSites = sites1;
       break;
     case 2:
-      finalSites = sites2;
+      sitSites = sites2;
       break;
     default:
       break;
@@ -29,14 +29,20 @@ async function packSIT({ page, branchName, sitBuildURL, siteNumber }) {
 
   const client = ['sit1', 'sit2', 'sit3'];
 
-  for (let i = 0; i < finalSites.length; i++) {
+  for (let i = 0; i < sitSites.length; i++) {
     const branchElement = 'input.setting-input';
     await page.waitFor(branchElement);
     await page.$eval(branchElement, (el) => (el.value = ''));
     await page.type(branchElement, branchName);
 
-    await page.select('select[name="value"]', finalSites[i]);
-    await page.select('tbody:nth-child(3) select[name="value"]', client[i]);
+    await page.select(
+      '#main-panel > form > div.parameters > div:nth-child(2) > div.setting-main > div > select',
+      sitSites[i]
+    );
+    await page.select(
+      '#main-panel > form > div.parameters > div:nth-child(3) > div.setting-main > div > select',
+      client[i]
+    );
     const buildButton = await page.waitFor('#yui-gen1-button');
     await buildButton.evaluate((btn) => btn.click());
 

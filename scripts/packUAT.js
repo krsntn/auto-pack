@@ -8,8 +8,14 @@ async function packUAT({ page, branchName, uatBuildURL }) {
     await page.$eval(branchElement, (el) => (el.value = ''));
     await page.type(branchElement, branchName);
 
-    await page.select('select[name="value"]', sites[i]);
-    await page.select('tbody:nth-child(3) select[name="value"]', client[i]);
+    await page.select(
+      '#main-panel > form > div.parameters > div:nth-child(2) > div.setting-main > div > select',
+      sites[i]
+    );
+    await page.select(
+      '#main-panel > form > div.parameters > div:nth-child(3) > div.setting-main > div > select',
+      client[i]
+    );
     const buildButton = await page.waitFor('#yui-gen1-button');
     await buildButton.evaluate((btn) => btn.click());
 
