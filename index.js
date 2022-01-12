@@ -131,7 +131,22 @@ const BUILD_TIME = 180000; // 2:00 minutes
       numClient: NUM_CLIENT,
       buildTime: BUILD_TIME,
     });
-    await verification(page, statusURL, clients.length);
+
+    let failedClients = await verification(page, statusURL, clients.length);
+
+    while (failedClients.length > 0) {
+      console.log('\n' + '===========================================' + '\n');
+      console.log('Rebuild Failed Clients: ', failedClients);
+      await packPROD({
+        page,
+        clients: failedClients,
+        buildURL,
+        numClient: NUM_CLIENT,
+        buildTime: BUILD_TIME,
+      });
+
+      failedClients = await verification(page, statusURL, failedClients.length);
+    }
 
     console.log('Finished');
     await browser.close();

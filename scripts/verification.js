@@ -38,6 +38,8 @@ async function verification(page, url, clientLength) {
     }
     console.log('\n' + 'Build Failed: ', failedClients + '\n');
   }
+
+  return failedClients;
 }
 
 async function getClientName(page, number) {
