@@ -11,7 +11,7 @@ dotenv.config();
 
 // [START] PROD configuration =========
 const NUM_CLIENT = 3; // number of clients to build at the same time
-const BUILD_TIME = 180000; // 2:00 minutes
+const BUILD_TIME = 180000; // 3:00 minutes
 // [END] PROD configuration ===========
 
 (async () => {
@@ -124,6 +124,7 @@ const BUILD_TIME = 180000; // 2:00 minutes
     console.log('Clients', clients);
 
     await autoLogin(page, buildURL, username, password);
+    await page.waitFor(1000);
     await packPROD({
       page,
       clients,
@@ -137,6 +138,7 @@ const BUILD_TIME = 180000; // 2:00 minutes
     while (failedClients.length > 0) {
       console.log('\n' + '===========================================' + '\n');
       console.log('Rebuild Failed Clients: ', failedClients);
+      await page.goto(buildURL);
       await packPROD({
         page,
         clients: failedClients,
@@ -145,7 +147,10 @@ const BUILD_TIME = 180000; // 2:00 minutes
         buildTime: BUILD_TIME,
       });
 
+      await page.waitFor(2000);
+
       failedClients = await verification(page, statusURL, failedClients.length);
+      console.log('failedClients', failedClients);
     }
 
     console.log('Finished');

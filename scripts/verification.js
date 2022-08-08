@@ -12,10 +12,10 @@ async function verification(page, url, clientLength) {
       let failedBuildNumbers = [];
 
       for (let i = 1; i <= clientLength; i++) {
-        const pass = tr[i].querySelector(
+        const pass = tr[i]?.querySelector(
           '.build-status-icon__wrapper.icon-blue'
         );
-        const fail = tr[i].querySelector(
+        const fail = tr[i]?.querySelector(
           '.build-status-icon__wrapper.icon-red'
         );
 
@@ -25,6 +25,9 @@ async function verification(page, url, clientLength) {
             .getAttribute('data');
           failedBuildNumbers.push(buildNumber);
         }
+
+        console.log('pass', pass);
+        console.log('fail', fail);
       }
 
       return failedBuildNumbers;

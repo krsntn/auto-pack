@@ -1,6 +1,4 @@
 async function packPROD({ page, clients, buildURL, numClient, buildTime }) {
-  await page.goto(buildURL);
-
   console.log(
     '\n' +
       `Estimated Build Time: ${
