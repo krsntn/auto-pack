@@ -1,161 +1,86 @@
-import dotenv from 'dotenv';
-import puppeteer from 'puppeteer';
-import autoLogin from './scripts/login.js';
-import packPROD from './scripts/packPROD.js';
-import packUAT from './scripts/packUAT.js';
-import packSIT from './scripts/packSIT.js';
-import verification from './scripts/verification.js';
-import { PLATFORM, SERVER, THEMES, clientList } from './clientList.js';
+import dotenv from "dotenv";
+import puppeteer from "puppeteer";
+import autoLogin from "./scripts/login.js";
+import packPROD from "./scripts/packPROD.js";
+import packSIT from "./scripts/packSIT.js";
+import verification from "./scripts/verification.js";
+import { PLATFORM, SERVER, THEMES, clientList } from "./clientList.js";
 
 dotenv.config();
 
-// [START] PROD configuration =========
-const NUM_CLIENT = 3; // number of clients to build at the same time
-const BUILD_TIME = 180000; // 3:00 minutes
-// [END] PROD configuration ===========
-
 (async () => {
   try {
-    const uatBuildURL = process.env.UAT_BUILD_URL;
-    const buildURL = process.env.BUILD_URL;
-    const statusURL = process.env.STATUS_URL;
-
     const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
 
-    const username = process.env.USERNAME;
-    const password = process.env.PASSWORD;
+    await autoLogin(page);
 
-    let toRunClients = [];
+    if (process.env.SIT || process.env.SIT1 || process.env.SIT2) {
+      await packSIT(page);
+      console.log("Done");
+    } else if (process.env.UAT) {
+      await packUAT(page);
+      console.log("Done");
+    } else if (process.env.BATCH) {
+      let toRunClients = [];
+      switch (process.env.BATCH) {
+        case "1":
+          toRunClients = clientList.filter((x) =>
+            [SERVER.AWS1, SERVER.AWS8, SERVER.AWS12].includes(x.server)
+          );
+          break;
+        case "2":
+          toRunClients = clientList.filter((x) =>
+            [
+              SERVER.AWS4,
+              SERVER.AWS11,
+              SERVER.AWS13,
+              SERVER.AWS13a,
+              SERVER.AWS16,
+              SERVER.AWS17,
+            ].includes(x.server)
+          );
+          break;
+        case "3":
+          toRunClients = clientList.filter((x) =>
+            [SERVER.AZURE, SERVER.AWS2, SERVER.AWS3].includes(x.server)
+          );
+          break;
+        case "4":
+          toRunClients = clientList.filter((x) =>
+            [SERVER.AWS5, SERVER.AWS6, SERVER.AWS9, SERVER.AWS10].includes(
+              x.server
+            )
+          );
+          break;
+      }
 
-    // SIT ----------------------------------------------------------------
-    if (process.env.SIT) {
-      const branchName = process.env.SIT;
-      await autoLogin(page, uatBuildURL, username, password);
-      await packSIT({
-        page,
-        branchName,
-        sitBuildURL: uatBuildURL,
-        siteNumber: 0,
-      });
-      console.log('Done');
-      return;
-    }
-    if (process.env.SIT1) {
-      const branchName = process.env.SIT1;
-      await autoLogin(page, uatBuildURL, username, password);
-      await packSIT({
-        page,
-        branchName,
-        sitBuildURL: uatBuildURL,
-        siteNumber: 1,
-      });
-      console.log('Done');
-      return;
-    }
-    if (process.env.SIT2) {
-      const branchName = process.env.SIT2;
-      await autoLogin(page, uatBuildURL, username, password);
-      await packSIT({
-        page,
-        branchName,
-        sitBuildURL: uatBuildURL,
-        siteNumber: 2,
-      });
-      console.log('Done');
-      return;
-    }
+      const clients = toRunClients.map((x) => x.client);
+      console.log("Clients", clients);
 
-    // UAT ----------------------------------------------------------------
-    if (process.env.UAT) {
-      const branchName = process.env.UAT;
-      await autoLogin(page, uatBuildURL, username, password);
-      await packUAT({
-        page,
-        branchName,
-        uatBuildURL,
-      });
-      console.log('Done');
-      return;
-    }
+      await packPROD(page, clients);
 
-    // PROD: run particular server ----------------------------------------
-    if (process.env.BATCH === '1') {
-      // 1st Batch
-      toRunClients = clientList.filter((x) =>
-        [SERVER.AWS12].includes(x.server)
-      );
-    } else if (process.env.BATCH === '2') {
-      // 2nd Batch
-      toRunClients = clientList.filter((x) =>
-        [
-          SERVER.AWS4,
-          SERVER.AWS13,
-          SERVER.AWS13a,
-          SERVER.AWS16,
-          SERVER.AWS17,
-        ].includes(x.server)
-      );
-    } else if (process.env.BATCH === '3') {
-      // 3rd Batch - Part 1
-      toRunClients = clientList.filter((x) =>
-        [
-          SERVER.AZURE,
-          SERVER.AWS1,
-          SERVER.AWS2,
-          SERVER.AWS3,
-          SERVER.AWS5,
-        ].includes(x.server)
-      );
-    } else if (process.env.BATCH === '4') {
-      // 3rd Batch - Part 2
-      toRunClients = clientList.filter((x) =>
-        [
-          SERVER.AWS6,
-          SERVER.AWS8,
-          SERVER.AWS9,
-          SERVER.AWS10,
-          SERVER.AWS11,
-        ].includes(x.server)
-      );
+      let failedClients = await verification(page, clients.length);
+
+      while (failedClients.length > 0) {
+        console.log(
+          "\n" + "===========================================" + "\n"
+        );
+        console.log("Rebuild Failed Clients: ", failedClients);
+        await packPROD(page, failedClients);
+
+        failedClients = await verification(
+          page,
+          statusURL,
+          failedClients.length
+        );
+        console.log("failedClients", failedClients);
+      }
     }
 
-    const clients = toRunClients.map((x) => x.client);
-    console.log('Clients', clients);
-
-    await autoLogin(page, buildURL, username, password);
-    await page.waitFor(1000);
-    await packPROD({
-      page,
-      clients,
-      buildURL,
-      numClient: NUM_CLIENT,
-      buildTime: BUILD_TIME,
-    });
-
-    let failedClients = await verification(page, statusURL, clients.length);
-
-    while (failedClients.length > 0) {
-      console.log('\n' + '===========================================' + '\n');
-      console.log('Rebuild Failed Clients: ', failedClients);
-      await page.goto(buildURL);
-      await packPROD({
-        page,
-        clients: failedClients,
-        buildURL,
-        numClient: NUM_CLIENT,
-        buildTime: BUILD_TIME,
-      });
-
-      await page.waitFor(2000);
-
-      failedClients = await verification(page, statusURL, failedClients.length);
-      console.log('failedClients', failedClients);
-    }
-
-    console.log('Finished');
+    console.log("Finished");
     await browser.close();
   } catch (e) {
-    console.log('error', e);
+    console.log("error", e);
   }
 })();

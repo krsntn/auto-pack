@@ -1,34 +1,58 @@
-async function packPROD({ page, clients, buildURL, numClient, buildTime }) {
+async function packPROD(page, clients) {
+  await page.goto(process.env.PROD_BUILD_URL);
+
   console.log(
-    '\n' +
+    "\n" +
       `Estimated Build Time: ${
-        (Math.ceil(clients.length / numClient) * buildTime) / 1000 / 60
+        (Math.ceil(clients.length / 3) * 180000) / 1000 / 60
       }mins` +
-      '\n'
+      "\n"
   );
 
   let count = 0;
 
-  console.time('Build time');
+  console.time("Build time");
   for (const client of clients) {
-    await page.waitFor('select[name="value"]');
+    await page.waitForSelector('select[name="value"]');
     await page.select('select[name="value"]', client);
-    const buildButton = await page.waitFor('#yui-gen1-button');
-    await buildButton.evaluate((btn) => btn.click());
+    const buildButton = "#yui-gen1-button";
+    await page.waitForSelector(buildButton);
+    await Promise.all([page.waitForNavigation(), page.click(buildButton)]);
 
     console.log(`${++count}/${clients.length}: building ${client}...`);
 
-    if (
-      (count % numClient === 0 && count !== clients.length - 1) ||
-      count === clients.length
-    ) {
-      await page.waitFor(buildTime);
+    const isThirdTrExist = await page.$(
+      "#buildHistory > div.row.pane-content > table > tbody > tr:nth-child(4)"
+    );
+
+    if (isThirdTrExist) {
+      await page.waitForFunction(
+        () => {
+          const thirdTr = document.querySelector(
+            "#buildHistory > div.row.pane-content > table > tbody > tr:nth-child(4)"
+          );
+          const classes = thirdTr.getAttribute("class");
+          return classes === "build-row single-line overflow-checked";
+        },
+        { timeout: 300000 }
+      );
     }
 
-    await page.waitFor(2000);
-    await page.goto(buildURL); // go to build page
+    await page.goto(process.env.PROD_BUILD_URL); // go to build page
   }
-  console.timeEnd('Build time');
+
+  await page.waitForFunction(
+    () => {
+      const lastClient = document.querySelectorAll(
+        ".pane.jenkins-pane.stripped tr"
+      )[1];
+      const classes = lastClient.getAttribute("class");
+      return classes === "build-row single-line overflow-checked";
+    },
+    { timeout: 300000 }
+  );
+
+  console.timeEnd("Build time");
 }
 
 export default packPROD;

@@ -14,7 +14,7 @@
   "author": "krsntn",
   "license": "ISC",
   "dependencies": {
-    "dotenv": "^8.2.0",
-    "puppeteer": "^4.0.1"
+    "dotenv": "^16.0.3",
+    "puppeteer": "^20.2.1"
   }
 }
