@@ -1,5 +1,6 @@
 async function packSIT(page) {
-  await page.goto(process.env.SIT_BUILD_URL);
+  const url = process.env.SIT_BUILD_URL;
+  await page.goto(url);
 
   const sites = [
     "sit01-101web.gri7.com",

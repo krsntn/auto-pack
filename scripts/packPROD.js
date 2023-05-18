@@ -1,5 +1,6 @@
 async function packPROD(page, clients) {
-  await page.goto(process.env.PROD_BUILD_URL);
+  const url = process.env.PROD_BUILD_URL;
+  await page.goto(url);
 
   console.log(
     "\n" +
@@ -12,7 +13,10 @@ async function packPROD(page, clients) {
   let count = 0;
 
   console.time("Build time");
-  for (const client of clients) {
+
+  for (let i = 0; i < clients.length; i++) {
+    const client = clients[i];
+
     await page.waitForSelector('select[name="value"]');
     await page.select('select[name="value"]', client);
     const buildButton = "#yui-gen1-button";
@@ -21,38 +25,85 @@ async function packPROD(page, clients) {
 
     console.log(`${++count}/${clients.length}: building ${client}...`);
 
-    const isThirdTrExist = await page.$(
-      "#buildHistory > div.row.pane-content > table > tbody > tr:nth-child(4)"
-    );
-
-    if (isThirdTrExist) {
-      await page.waitForFunction(
+    if (i >= 2) {
+      const pro1 = page.waitForFunction(
         () => {
           const thirdTr = document.querySelector(
-            "#buildHistory > div.row.pane-content > table > tbody > tr:nth-child(4)"
+            `#buildHistory > div.row.pane-content > table > tbody > tr:nth-child(${2})`
           );
           const classes = thirdTr.getAttribute("class");
           return classes === "build-row single-line overflow-checked";
         },
-        { timeout: 300000 }
+        { timeout: 600000 }
       );
-    }
 
-    await page.goto(process.env.PROD_BUILD_URL); // go to build page
+      const pro2 = page.waitForFunction(
+        () => {
+          const thirdTr = document.querySelector(
+            `#buildHistory > div.row.pane-content > table > tbody > tr:nth-child(${3})`
+          );
+          const classes = thirdTr.getAttribute("class");
+          return classes === "build-row single-line overflow-checked";
+        },
+        { timeout: 600000 }
+      );
+
+      const pro3 = page.waitForFunction(
+        () => {
+          const thirdTr = document.querySelector(
+            `#buildHistory > div.row.pane-content > table > tbody > tr:nth-child(${4})`
+          );
+          const classes = thirdTr.getAttribute("class");
+          return classes === "build-row single-line overflow-checked";
+        },
+        { timeout: 600000 }
+      );
+
+      await Promise.race([pro1, pro2, pro3]).then(() => {
+        page.goto(process.env.PROD_BUILD_URL);
+      });
+    } else {
+      await page.goto(process.env.PROD_BUILD_URL);
+    }
   }
 
-  await page.waitForFunction(
+  // after run all clients =========
+  const pro1 = page.waitForFunction(
     () => {
-      const lastClient = document.querySelectorAll(
-        ".pane.jenkins-pane.stripped tr"
-      )[1];
-      const classes = lastClient.getAttribute("class");
+      const thirdTr = document.querySelector(
+        `#buildHistory > div.row.pane-content > table > tbody > tr:nth-child(${2})`
+      );
+      const classes = thirdTr.getAttribute("class");
       return classes === "build-row single-line overflow-checked";
     },
-    { timeout: 300000 }
+    { timeout: 600000 }
   );
 
-  console.timeEnd("Build time");
+  const pro2 = page.waitForFunction(
+    () => {
+      const thirdTr = document.querySelector(
+        `#buildHistory > div.row.pane-content > table > tbody > tr:nth-child(${3})`
+      );
+      const classes = thirdTr.getAttribute("class");
+      return classes === "build-row single-line overflow-checked";
+    },
+    { timeout: 600000 }
+  );
+
+  const pro3 = page.waitForFunction(
+    () => {
+      const thirdTr = document.querySelector(
+        `#buildHistory > div.row.pane-content > table > tbody > tr:nth-child(${4})`
+      );
+      const classes = thirdTr.getAttribute("class");
+      return classes === "build-row single-line overflow-checked";
+    },
+    { timeout: 600000 }
+  );
+
+  await Promise.all([pro1, pro2, pro3]).then(() => {
+    console.timeEnd("Build time");
+  });
 }
 
 export default packPROD;

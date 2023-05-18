@@ -10,7 +10,10 @@ dotenv.config();
 
 (async () => {
   try {
-    const browser = await puppeteer.launch({ headless: true });
+    const browser = await puppeteer.launch({
+      headless: "new",
+      protocolTimeout: 0,
+    });
     const page = await browser.newPage();
 
     await autoLogin(page);
@@ -69,11 +72,7 @@ dotenv.config();
         console.log("Rebuild Failed Clients: ", failedClients);
         await packPROD(page, failedClients);
 
-        failedClients = await verification(
-          page,
-          statusURL,
-          failedClients.length
-        );
+        failedClients = await verification(page, failedClients.length);
         console.log("failedClients", failedClients);
       }
     }

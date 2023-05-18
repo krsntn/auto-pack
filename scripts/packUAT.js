@@ -1,5 +1,6 @@
 async function packUAT(page) {
-  await page.goto(process.env.SIT_BUILD_URL);
+  const url = process.env.SIT_BUILD_URL;
+  await page.goto(url);
   const sites = ["www.513xyz.com", "dsf.513xyz.com", "uat07wap.513xyz.com"];
   const client = ["sit1", "sit2", "sit3"];
 
