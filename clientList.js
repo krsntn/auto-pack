@@ -152,12 +152,12 @@ const clientList = [
 
   { platform: PLATFORM.CP, server: SERVER.AWS8, client: "bzcp-m" },
   { platform: PLATFORM.CP, server: SERVER.AWS8, client: "656cp-m" },
-  {
-    platform: PLATFORM.NEWZH,
-    server: SERVER.AWS8,
-    client: "570-m",
-    themes: THEMES.CUSTOM_DARK,
-  },
+  // {
+  //   platform: PLATFORM.NEWZH,
+  //   server: SERVER.AWS8,
+  //   client: "570-m",
+  //   themes: THEMES.CUSTOM_DARK,
+  // },
   // { platform: PLATFORM.CP, server: SERVER.AWS8, client: '888cp-m' },
   // {
   //   platform: PLATFORM.NEWZH,
@@ -217,7 +217,7 @@ const clientList = [
   // AWS 11 =============================================================
 
   { platform: PLATFORM.CP, server: SERVER.AWS11, client: "901-m" },
-  { platform: PLATFORM.CP, server: SERVER.AWS11, client: "101-m" },
+  // { platform: PLATFORM.CP, server: SERVER.AWS11, client: "101-m" },
   { platform: PLATFORM.CP, server: SERVER.AWS11, client: "890-m" },
   {
     platform: PLATFORM.NEWZH,
@@ -258,12 +258,12 @@ const clientList = [
 
   // AWS 13a =============================================================
 
-  {
-    platform: PLATFORM.NEWZH,
-    server: SERVER.AWS13a,
-    client: "9hcp-m",
-    themes: THEMES.CUSTOM_DARK,
-  },
+  // {
+  //   platform: PLATFORM.NEWZH,
+  //   server: SERVER.AWS13a,
+  //   client: "9hcp-m",
+  //   themes: THEMES.CUSTOM_DARK,
+  // },
   {
     platform: PLATFORM.NEWZH,
     server: SERVER.AWS13a,
