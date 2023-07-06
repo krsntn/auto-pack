@@ -17,13 +17,20 @@ async function packPROD(page, clients) {
   for (let i = 0; i < clients.length; i++) {
     const client = clients[i];
 
-    await page.waitForSelector('select[name="value"]');
-    await page.select('select[name="value"]', client);
-    const buildButton = "#yui-gen1-button";
+    await page.waitForSelector(
+      "#main-panel > form > div.parameters > div:nth-child(1) > div.setting-main > div > select"
+    );
+    await page.select(
+      "#main-panel > form > div.parameters > div:nth-child(1) > div.setting-main > div > select",
+      client
+    );
+    const buildButton = "#bottom-sticker > div > button";
     await page.waitForSelector(buildButton);
     await Promise.all([page.waitForNavigation(), page.click(buildButton)]);
 
     console.log(`${++count}/${clients.length}: building ${client}...`);
+
+    const finishedClasses = "build-row multi-line overflow-checked";
 
     if (i >= 2) {
       const pro1 = page.waitForFunction(
@@ -31,8 +38,7 @@ async function packPROD(page, clients) {
           const thirdTr = document.querySelector(
             `#buildHistory > div.row.pane-content > table > tbody > tr:nth-child(${2})`
           );
-          const classes = thirdTr.getAttribute("class");
-          return classes === "build-row single-line overflow-checked";
+          return thirdTr.getAttribute("class") === finishedClasses;
         },
         { timeout: 600000 }
       );
@@ -42,8 +48,7 @@ async function packPROD(page, clients) {
           const thirdTr = document.querySelector(
             `#buildHistory > div.row.pane-content > table > tbody > tr:nth-child(${3})`
           );
-          const classes = thirdTr.getAttribute("class");
-          return classes === "build-row single-line overflow-checked";
+          return thirdTr.getAttribute("class") === finishedClasses;
         },
         { timeout: 600000 }
       );
@@ -53,8 +58,7 @@ async function packPROD(page, clients) {
           const thirdTr = document.querySelector(
             `#buildHistory > div.row.pane-content > table > tbody > tr:nth-child(${4})`
           );
-          const classes = thirdTr.getAttribute("class");
-          return classes === "build-row single-line overflow-checked";
+          return thirdTr.getAttribute("class") === finishedClasses;
         },
         { timeout: 600000 }
       );
@@ -73,8 +77,7 @@ async function packPROD(page, clients) {
       const thirdTr = document.querySelector(
         `#buildHistory > div.row.pane-content > table > tbody > tr:nth-child(${2})`
       );
-      const classes = thirdTr.getAttribute("class");
-      return classes === "build-row single-line overflow-checked";
+      return thirdTr.getAttribute("class") === finishedClasses;
     },
     { timeout: 600000 }
   );
@@ -84,8 +87,7 @@ async function packPROD(page, clients) {
       const thirdTr = document.querySelector(
         `#buildHistory > div.row.pane-content > table > tbody > tr:nth-child(${3})`
       );
-      const classes = thirdTr.getAttribute("class");
-      return classes === "build-row single-line overflow-checked";
+      return thirdTr.getAttribute("class") === finishedClasses;
     },
     { timeout: 600000 }
   );
@@ -95,8 +97,7 @@ async function packPROD(page, clients) {
       const thirdTr = document.querySelector(
         `#buildHistory > div.row.pane-content > table > tbody > tr:nth-child(${4})`
       );
-      const classes = thirdTr.getAttribute("class");
-      return classes === "build-row single-line overflow-checked";
+      return thirdTr.getAttribute("class") === finishedClasses;
     },
     { timeout: 600000 }
   );

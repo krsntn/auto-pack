@@ -3,6 +3,7 @@ import puppeteer from "puppeteer";
 import autoLogin from "./scripts/login.js";
 import packPROD from "./scripts/packPROD.js";
 import packSIT from "./scripts/packSIT.js";
+import packUAT from "./scripts/packUAT.js";
 import verification from "./scripts/verification.js";
 import { PLATFORM, SERVER, THEMES, clientList } from "./clientList.js";
 
@@ -35,7 +36,6 @@ dotenv.config();
         case "2":
           toRunClients = clientList.filter((x) =>
             [
-              SERVER.AWS4,
               SERVER.AWS11,
               SERVER.AWS13,
               SERVER.AWS13a,
@@ -46,7 +46,13 @@ dotenv.config();
           break;
         case "3":
           toRunClients = clientList.filter((x) =>
-            [SERVER.AZURE, SERVER.AWS2, SERVER.AWS3].includes(x.server)
+            [
+              SERVER.AZURE,
+              SERVER.AWS2,
+              SERVER.AWS3,
+              SERVER.AWS4,
+              SERVER.AWS11,
+            ].includes(x.server)
           );
           break;
         case "4":

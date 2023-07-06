@@ -30,7 +30,8 @@ async function packSIT(page) {
   const client = ["sit1", "sit2", "sit3"];
 
   for (let i = 0; i < sitSites.length; i++) {
-    const branchElement = "input.setting-input";
+    const branchElement =
+      "#main-panel > form > div.parameters > div:nth-child(1) > div.setting-main > div > input.jenkins-input";
     await page.waitForSelector(branchElement);
     await page.$eval(branchElement, (el) => (el.value = ""));
     await page.type(
@@ -47,7 +48,7 @@ async function packSIT(page) {
       client[i]
     );
 
-    const buildButton = "#yui-gen1-button";
+    const buildButton = "#bottom-sticker > div > button";
     await page.waitForSelector(buildButton);
     await Promise.all([page.waitForNavigation(), page.click(buildButton)]);
 

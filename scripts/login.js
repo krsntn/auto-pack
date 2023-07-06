@@ -1,5 +1,5 @@
 async function autoLogin(page) {
-  await page.goto("https://jenkins.servnimo.com/");
+  await page.goto("https://jenkins2.servnimo.com/");
 
   const username = process.env.USERNAME;
   const password = process.env.PASSWORD;
@@ -15,7 +15,7 @@ async function autoLogin(page) {
   await page.type(passwordElement, password);
 
   // login button
-  const loginButton = "body > div > div > form > div.submit.formRow > input";
+  const loginButton = "body > div > div > form > div.submit > button";
   await page.waitForSelector(loginButton);
   await Promise.all([page.waitForNavigation(), page.click(loginButton)]);
 }
