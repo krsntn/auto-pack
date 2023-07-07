@@ -30,15 +30,17 @@ async function packPROD(page, clients) {
 
     console.log(`${++count}/${clients.length}: building ${client}...`);
 
-    const finishedClasses = "build-row multi-line overflow-checked";
-
     if (i >= 2) {
       const pro1 = page.waitForFunction(
         () => {
           const thirdTr = document.querySelector(
-            `#buildHistory > div.row.pane-content > table > tbody > tr:nth-child(${2})`
+            `#buildHistory > div.row.pane-content > table > tbody > tr:nth-child(2)`
           );
-          return thirdTr.getAttribute("class") === finishedClasses;
+          const classes = thirdTr.getAttribute("class");
+          return (
+            classes === "build-row single-line overflow-checked" ||
+            classes === "build-row multi-line overflow-checked"
+          );
         },
         { timeout: 600000 }
       );
@@ -46,9 +48,13 @@ async function packPROD(page, clients) {
       const pro2 = page.waitForFunction(
         () => {
           const thirdTr = document.querySelector(
-            `#buildHistory > div.row.pane-content > table > tbody > tr:nth-child(${3})`
+            `#buildHistory > div.row.pane-content > table > tbody > tr:nth-child(3)`
           );
-          return thirdTr.getAttribute("class") === finishedClasses;
+          const classes = thirdTr.getAttribute("class");
+          return (
+            classes === "build-row single-line overflow-checked" ||
+            classes === "build-row multi-line overflow-checked"
+          );
         },
         { timeout: 600000 }
       );
@@ -56,9 +62,13 @@ async function packPROD(page, clients) {
       const pro3 = page.waitForFunction(
         () => {
           const thirdTr = document.querySelector(
-            `#buildHistory > div.row.pane-content > table > tbody > tr:nth-child(${4})`
+            `#buildHistory > div.row.pane-content > table > tbody > tr:nth-child(4)`
           );
-          return thirdTr.getAttribute("class") === finishedClasses;
+          const classes = thirdTr.getAttribute("class");
+          return (
+            classes === "build-row single-line overflow-checked" ||
+            classes === "build-row multi-line overflow-checked"
+          );
         },
         { timeout: 600000 }
       );
@@ -75,9 +85,13 @@ async function packPROD(page, clients) {
   const pro1 = page.waitForFunction(
     () => {
       const thirdTr = document.querySelector(
-        `#buildHistory > div.row.pane-content > table > tbody > tr:nth-child(${2})`
+        `#buildHistory > div.row.pane-content > table > tbody > tr:nth-child(2)`
       );
-      return thirdTr.getAttribute("class") === finishedClasses;
+      const classes = thirdTr.getAttribute("class");
+      return (
+        classes === "build-row single-line overflow-checked" ||
+        classes === "build-row multi-line overflow-checked"
+      );
     },
     { timeout: 600000 }
   );
@@ -85,9 +99,13 @@ async function packPROD(page, clients) {
   const pro2 = page.waitForFunction(
     () => {
       const thirdTr = document.querySelector(
-        `#buildHistory > div.row.pane-content > table > tbody > tr:nth-child(${3})`
+        `#buildHistory > div.row.pane-content > table > tbody > tr:nth-child(3)`
       );
-      return thirdTr.getAttribute("class") === finishedClasses;
+      const classes = thirdTr.getAttribute("class");
+      return (
+        classes === "build-row single-line overflow-checked" ||
+        classes === "build-row multi-line overflow-checked"
+      );
     },
     { timeout: 600000 }
   );
@@ -95,9 +113,13 @@ async function packPROD(page, clients) {
   const pro3 = page.waitForFunction(
     () => {
       const thirdTr = document.querySelector(
-        `#buildHistory > div.row.pane-content > table > tbody > tr:nth-child(${4})`
+        `#buildHistory > div.row.pane-content > table > tbody > tr:nth-child(4)`
       );
-      return thirdTr.getAttribute("class") === finishedClasses;
+      const classes = thirdTr.getAttribute("class");
+      return (
+        classes === "build-row single-line overflow-checked" ||
+        classes === "build-row multi-line overflow-checked"
+      );
     },
     { timeout: 600000 }
   );

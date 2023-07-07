@@ -69,6 +69,8 @@ dotenv.config();
 
       await packPROD(page, clients);
 
+      await new Promise((r) => setTimeout(r, 4000));
+
       let failedClients = await verification(page, clients.length);
 
       while (failedClients.length > 0) {
@@ -77,6 +79,8 @@ dotenv.config();
         );
         console.log("Rebuild Failed Clients: ", failedClients);
         await packPROD(page, failedClients);
+
+        await new Promise((r) => setTimeout(r, 4000));
 
         failedClients = await verification(page, failedClients.length);
         console.log("failedClients", failedClients);
